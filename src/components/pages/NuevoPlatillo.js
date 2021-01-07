@@ -51,6 +51,8 @@ export default function NuevoPlatillo() {
                 type="number"
                 placeholder="20"
                 min="0"
+                value={formik.values.precio}
+                onChange={formik.handleChange}
               />
             </div>
             <div className="mb-4">
@@ -64,6 +66,8 @@ export default function NuevoPlatillo() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="precio"
                 name="categoria"
+                value={formik.values.categoria}
+                onChange={formik.handleChange}
               >
                 <option value="">--Selecione --</option>
                 <option value="desayuno">Desayuno</option>
@@ -85,6 +89,8 @@ export default function NuevoPlatillo() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="imagen"
                 type="file"
+                value={formik.values.imagen}
+                onChange={formik.handleChange}
               />
             </div>
             <div className="mb-4">
@@ -98,6 +104,8 @@ export default function NuevoPlatillo() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
                 id="descripcion"
                 placeholder="Descripción del Platillo"
+                value={formik.values.descripcion}
+                onChange={formik.handleChange}
               ></textarea>
             </div>
             <input
