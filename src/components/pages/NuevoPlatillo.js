@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 
 export default function NuevoPlatillo() {
   //validación y leer los datos del formulario
@@ -11,6 +12,18 @@ export default function NuevoPlatillo() {
       imagen: "",
       descripcion: "",
     },
+    validationSchema: Yup.object({
+      nombre: Yup.string()
+        .min(3, "Los Platillos deben tener al menos 3 carateres")
+        .required("El Nombre del platillo, es obligatorio"),
+      precio: Yup.number()
+        .min(1, "Debes agregar un número")
+        .required("El Precio es obligatorio"),
+      categoria: Yup.string().required("El Categoría es obligatoria"),
+      descripcion: Yup.string()
+        .min(10, "La descripción debe ser más larga")
+        .required("La descripción es obligatoria"),
+    }),
     onSubmit: (datos) => {
       console.log(datos);
     },
@@ -36,8 +49,18 @@ export default function NuevoPlatillo() {
                 placeholder="Nombre Platillo"
                 value={formik.values.nombre}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
+            {formik.touched.nombre && formik.errors.nombre ? (
+              <div
+                className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5"
+                role="alert"
+              >
+                <p className="font-bold">Hubo un error:</p>
+                <p>{formik.errors.nombre}</p>
+              </div>
+            ) : null}
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -53,8 +76,19 @@ export default function NuevoPlatillo() {
                 min="0"
                 value={formik.values.precio}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
+            {formik.touched.precio && formik.errors.precio ? (
+              <div
+                className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5"
+                role="alert"
+              >
+                <p className="font-bold">Hubo un error:</p>
+                <p>{formik.errors.nombre}</p>
+              </div>
+            ) : null}
+
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -68,6 +102,7 @@ export default function NuevoPlatillo() {
                 name="categoria"
                 value={formik.values.categoria}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               >
                 <option value="">--Selecione --</option>
                 <option value="desayuno">Desayuno</option>
@@ -77,6 +112,15 @@ export default function NuevoPlatillo() {
                 <option value="postre">Postre</option>
                 <option value="ensalada">Ensaladas</option>
               </select>
+              {formik.touched.categoria && formik.errors.categoria ? (
+                <div
+                  className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5"
+                  role="alert"
+                >
+                  <p className="font-bold">Hubo un error:</p>
+                  <p>{formik.errors.nombre}</p>
+                </div>
+              ) : null}
             </div>
             <div className="mb-4">
               <label
@@ -91,6 +135,7 @@ export default function NuevoPlatillo() {
                 type="file"
                 value={formik.values.imagen}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
             <div className="mb-4">
@@ -106,8 +151,19 @@ export default function NuevoPlatillo() {
                 placeholder="Descripción del Platillo"
                 value={formik.values.descripcion}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               ></textarea>
             </div>
+            {formik.touched.descripcion && formik.errors.descripcion ? (
+              <div
+                className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5"
+                role="alert"
+              >
+                <p className="font-bold">Hubo un error:</p>
+                <p>{formik.errors.nombre}</p>
+              </div>
+            ) : null}
+
             <input
               type="submit"
               className="bg-gray-800 hover:bg-gray-900 w-full mt-5 p-2 text-white uppercase font-bold"
