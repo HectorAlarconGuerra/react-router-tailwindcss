@@ -1,4 +1,4 @@
-import React, {useContext}from "react";
+import React, {useContext, useState}from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {FirebaseContext} from '../../firebase';
@@ -7,10 +7,15 @@ import FileUploader from 'react-firebase-file-uploader';
 
 export default function NuevoPlatillo() {
 
+  // state para las imagenes
+  const [subiendo, guardarSubiendo] = useState(false);
+  const [progreso, guardarProgreso] = useState(0);
+  const [urlimagen, guardarUrlimagen] = useState('');
+
   // Context con las operaciones de firebase
   const {firebase} = useContext(FirebaseContext);
 
-  console.log(firebase);
+  //console.log(firebase);
   
   //Hook para redireccionar
   const navigate = useNavigate();
@@ -49,6 +54,36 @@ export default function NuevoPlatillo() {
       }
     },
   });
+
+  // Todo sobre las imagenes
+  const handleUploadStart = () => {
+    guardarProgreso(0);
+    guardarSubiendo(true);
+  }
+
+  const handleUploadError = error => {
+    guardarSubiendo(false);
+    console.log(error);
+  }
+  const handelUploadSuccess = async nombre => {
+    guardarProgreso(100);
+    guardarSubiendo(false);
+
+    //Almacenar la URL de destino
+    const url = await firebase
+            .storage
+            .ref("productos")
+            .child(nombre)
+            .getDownloadURL();
+
+    console.log(url);
+    guardarUrlimagen(url);
+
+  }
+  const handleProgress = progreso => {
+    guardarProgreso(progreso);
+    console.log(progreso);
+  }
 
   return (
     <>
@@ -156,7 +191,11 @@ export default function NuevoPlatillo() {
                  name="image"
                  randomizeFilename
                  storageRef={firebase.storage.ref("productos")}
-                 
+                 onUploadSatr={handleUploadStart}
+                 onUploadError={handleUploadError}
+                 onUploadSuccess={handelUploadSuccess}
+                 onProgress={handleProgress}
+
               />
             </div>
             <div className="mb-4">
